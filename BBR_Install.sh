@@ -172,6 +172,9 @@ Logprefix;echo ${CMAGENTA}'[Success]优化完成'${CEND}
 }
 
 function InstallKernel() {
+  Coloseselinux
+  Installbasesoftware
+  Yumupdate
   # 安装内核
   Logprefix;echo ${CMSG}'[Info]安装kernel'${CEND}
   rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
@@ -212,10 +215,6 @@ function InstallBBR_tsunami() {
 
 Colorset
 Checksystem
-
-Coloseselinux
-Installbasesoftware
-Yumupdate
 
 #安装开始
 while true; do
