@@ -105,7 +105,7 @@ function Installbasesoftware() {
 }
 
 function Askuser() {
-  OPTION=$(whiptail --clear --nocancel --menu "请选择选项" 15 60 4 \
+  OPTION=$(whiptail --clear --nocancel --menu "请选择选项" 20 100 8 \
 "1" "升级内核" \
 "2" "安装原版BBR(请确认已升级内核)" \
 "3" "安装魔改版BBR(请确认已升级内核)" \
