@@ -167,8 +167,9 @@ net.ipv4.tcp_mem = 786432 1048576 1572864
 net.ipv4.tcp_fin_timeout = 30
 #net.ipv4.tcp_keepalive_time = 30
 net.ipv4.tcp_keepalive_time = 300
-net.ipv4.ip_local_port_range = 1024 65000' > /etc/sysctl.conf
-Logprefix;echo ${CMAGENTA}'[Success]优化完成'${CEND}
+net.ipv4.ip_local_port_range = 1024 65000' >> /etc/sysctl.conf
+  sysctl -p
+  Logprefix;echo ${CMAGENTA}'[Success]优化完成'${CEND}
 }
 
 function InstallKernel() {
