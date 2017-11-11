@@ -3,4 +3,4 @@
 作者CraftYun
 
 > 安装方法  
-`bash -c "$(curl -sS https://code.aliyun.com/h7190819/Shell-BBR/raw/master/BBR_Install.sh)"`
+`https://github.com/1157173310/Shell-BBR/raw/master/BBR_Install.sh`
