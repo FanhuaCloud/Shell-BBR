@@ -99,6 +99,7 @@ function Askuser() {
   read
   InstallKernel
   InstallBBR
+  Kernel_Optimize
 }
 
 function Kernel_Optimize() {
