@@ -148,15 +148,15 @@ function InstallKernel() {
   Logprefix;echo ${CMSG}'[Info]安装kernel'${CEND}
   rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 
-  if [[ ${RHEL_Version} == '7' ]]; then
-    rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
-  else if [[ ${RHEL_Version} == '5' ]]; then
-    rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
-  else
-    Logprefix;echo ${CRED}'[Error]请确认你的系统是Centos7或Centos6(推荐Centos7)'${CEND}
-    exit
+  if grep -Eqi "release 5." /etc/redhat-release; then
+	  Logprefix;echo ${CWARNING}'[Error]请使用Centos6或7安装!'${CEND}
+	  exit
+  elif grep -Eqi "release 6." /etc/redhat-release; then
+      rpm -Uvh 'http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm'
+  elif grep -Eqi "release 7." /etc/redhat-release; then
+      rpm -Uvh 'http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm'
   fi
-
+  
   # 安装内核
   yum -y remove kernel-headers
   yum -y --enablerepo=elrepo-kernel install kernel-ml kernel-ml-headers kernel-ml-devel
