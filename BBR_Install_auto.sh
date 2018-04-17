@@ -130,11 +130,9 @@ net.ipv4.tcp_max_syn_backlog = 262144
 net.ipv4.tcp_timestamps = 1
 net.ipv4.tcp_synack_retries = 1
 net.ipv4.tcp_syn_retries = 1
-net.ipv4.tcp_tw_recycle = 1
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_mem = 786432 1048576 1572864
 net.ipv4.tcp_fin_timeout = 30
-#net.ipv4.tcp_keepalive_time = 30
 net.ipv4.tcp_keepalive_time = 300
 net.ipv4.ip_local_port_range = 1024 65000' >> /etc/sysctl.conf
   sysctl -p
