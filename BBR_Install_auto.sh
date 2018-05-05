@@ -133,6 +133,7 @@ function Installbasesoftware() {
 function Askuser() {
   Logprefix;echo ${CMSG}'[Info]提示:按下回车键开始，或使用CTRL+C退出'${CEND}
   read
+  Logprefix;echo ${CMSG}'[Info]创建swap区,可能需要花费较长时间，请耐心等待'${CEND}
   # add swapfile
   if [ "$Swap" == '0' ]; then
     if [ $Mem -le 1024 ]; then
