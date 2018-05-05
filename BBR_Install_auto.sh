@@ -1,5 +1,40 @@
 #!/bin/bash
 
+Mem=`free -m | awk '/Mem:/{print $2}'`
+Swap=`free -m | awk '/Swap:/{print $2}'`
+
+if [ $Mem -le 640 ]; then
+  Mem_level=512M
+  Memory_limit=64
+  THREAD=1
+elif [ $Mem -gt 640 -a $Mem -le 1280 ]; then
+  Mem_level=1G
+  Memory_limit=128
+elif [ $Mem -gt 1280 -a $Mem -le 2500 ]; then
+  Mem_level=2G
+  Memory_limit=192
+elif [ $Mem -gt 2500 -a $Mem -le 3500 ]; then
+  Mem_level=3G
+  Memory_limit=256
+elif [ $Mem -gt 3500 -a $Mem -le 4500 ]; then
+  Mem_level=4G
+  Memory_limit=320
+elif [ $Mem -gt 4500 -a $Mem -le 8000 ]; then
+  Mem_level=6G
+  Memory_limit=384
+elif [ $Mem -gt 8000 ]; then
+  Mem_level=8G
+  Memory_limit=448
+fi
+
+Make-swapfile() {
+  dd if=/dev/zero of=/swapfile count=$COUNT bs=1M
+  mkswap /swapfile
+  swapon /swapfile
+  chmod 600 /swapfile
+  [ -z "`grep swapfile /etc/fstab`" ] && echo '/swapfile    swap    swap    defaults    0 0' >> /etc/fstab
+}
+
 function Colorset() {
   #颜色配置
   echo=echo
@@ -98,6 +133,16 @@ function Installbasesoftware() {
 function Askuser() {
   Logprefix;echo ${CMSG}'[Info]提示:按下回车键开始，或使用CTRL+C退出'${CEND}
   read
+  # add swapfile
+  if [ "$Swap" == '0' ]; then
+    if [ $Mem -le 1024 ]; then
+      COUNT=1024
+      Make-swapfile
+    elif [ $Mem -gt 1024 ]; then
+      COUNT=2048
+      Make-swapfile
+    fi
+  fi
   InstallKernel
   InstallBBR
   Kernel_Optimize
@@ -105,7 +150,18 @@ function Askuser() {
 
 function Kernel_Optimize() {
   Logprefix;echo ${CMSG}'[Info]优化内核参数'${CEND}
-  echo 'net.ipv4.ip_forward = 0
+  echo '# sysctl settings are defined through files in
+# /usr/lib/sysctl.d/, /run/sysctl.d/, and /etc/sysctl.d/.
+#
+# Vendors settings live in /usr/lib/sysctl.d/.
+# To override a whole file, create a new file with the same in
+# /etc/sysctl.d/ and put new settings there. To override
+# only specific settings, add a file with a lexically later
+# name in /etc/sysctl.d/ and put new settings there.
+#
+# For more information, see sysctl.conf(5) and sysctl.d(5).
+  
+net.ipv4.ip_forward = 0
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.conf.default.accept_source_route = 0
 kernel.sysrq = 0
