@@ -219,6 +219,9 @@ function InstallKernel() {
   # 安装内核
   yum -y remove kernel-headers
   yum -y --enablerepo=elrepo-kernel install kernel-ml kernel-ml-headers kernel-ml-devel
+  
+  sed -i 's%DEFAULTKERNEL=kernel%DEFAULTKERNEL=kernel-ml%' /etc/sysconfig/kernel
+  
   # 设置启动顺序
   grub2-set-default 0
 }
