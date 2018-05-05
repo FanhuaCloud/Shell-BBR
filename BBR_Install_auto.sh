@@ -92,6 +92,7 @@ function Installbasesoftware() {
   yum -y install unzip zip
   Logprefix;echo ${CMSG}'[Info]安装Development Tools'${CEND}
   yum -y groupinstall "Development Tools"
+  yum -y install yum-utils
 }
 
 function Askuser() {
@@ -155,6 +156,8 @@ function InstallKernel() {
   elif grep -Eqi "release 7." /etc/redhat-release; then
       rpm -Uvh 'http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm'
   fi
+  
+  yum-config-manager --enable elrepo-kernel
   
   # 安装内核
   yum -y remove kernel-headers
