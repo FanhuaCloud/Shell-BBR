@@ -145,8 +145,8 @@ function Askuser() {
     fi
   fi
   InstallKernel
-  InstallBBR
   Kernel_Optimize
+  InstallBBR
 }
 
 function Kernel_Optimize() {
@@ -192,7 +192,7 @@ net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_mem = 786432 1048576 1572864
 net.ipv4.tcp_fin_timeout = 30
 net.ipv4.tcp_keepalive_time = 300
-net.ipv4.ip_local_port_range = 1024 65000' >> /etc/sysctl.conf
+net.ipv4.ip_local_port_range = 1024 65000' > /etc/sysctl.conf
   sysctl -p
   Logprefix;echo ${CMAGENTA}'[Success]优化完成'${CEND}
 }
@@ -224,7 +224,7 @@ function InstallKernel() {
 }
 
 function InstallBBR() {
-  echo "net.core.default_qdisc = fq" > /etc/sysctl.conf
+  echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
   echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
   sysctl -p
   lsmod | grep bbr
