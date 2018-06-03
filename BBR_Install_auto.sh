@@ -151,17 +151,7 @@ function Askuser() {
 
 function Kernel_Optimize() {
   Logprefix;echo ${CMSG}'[Info]优化内核参数'${CEND}
-  echo '# sysctl settings are defined through files in
-# /usr/lib/sysctl.d/, /run/sysctl.d/, and /etc/sysctl.d/.
-#
-# Vendors settings live in /usr/lib/sysctl.d/.
-# To override a whole file, create a new file with the same in
-# /etc/sysctl.d/ and put new settings there. To override
-# only specific settings, add a file with a lexically later
-# name in /etc/sysctl.d/ and put new settings there.
-#
-# For more information, see sysctl.conf(5) and sysctl.d(5).
-  
+  echo '# 此文件参数由BBR_Install脚本生成，请不要随意修改，随意修改可能会引起内核出错!
 net.ipv4.ip_forward = 0
 net.ipv4.conf.default.rp_filter = 1
 net.ipv4.conf.default.accept_source_route = 0
@@ -193,7 +183,6 @@ net.ipv4.tcp_mem = 786432 1048576 1572864
 net.ipv4.tcp_fin_timeout = 30
 net.ipv4.tcp_keepalive_time = 300
 net.ipv4.ip_local_port_range = 1024 65000' > /etc/sysctl.conf
-  sysctl -p
   Logprefix;echo ${CMAGENTA}'[Success]优化完成'${CEND}
 }
 
@@ -229,9 +218,9 @@ function InstallKernel() {
 function InstallBBR() {
   echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
   echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
-  sysctl -p
-  lsmod | grep bbr
-  Logprefix;echo ${CMAGENTA}'[Success]安装完成'${CEND}
+  Logprefix;echo ${CYELLOW}'[Warning]对内核参数文件(/etc/sysctl.conf)加锁中，防止其他脚本修改，解除请运行[chattr -i /etc/sysctl.conf]'${CEND}
+  chattr +i /etc/sysctl.conf
+  Logprefix;echo ${CMAGENTA}'[Success]安装完成，请手动重启系统'${CEND}
 }
 
 Colorset
