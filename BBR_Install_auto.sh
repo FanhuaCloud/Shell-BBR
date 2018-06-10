@@ -119,6 +119,7 @@ function Installbasesoftware() {
   Logprefix;echo ${CMSG}'[Info]安装基础软件'${CEND}
   Logprefix;echo ${CMSG}'[Info]安装epel源'${CEND}
   yum -y install epel-release
+  rm -rf /etc/yum.repos.d/CentOS-Epel.repo
   Logprefix;echo ${CMSG}'[Info]安装wget'${CEND}
   yum -y install wget
   Logprefix;echo ${CMSG}'[Info]安装lrzsz'${CEND}
