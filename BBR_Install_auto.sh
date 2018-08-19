@@ -205,7 +205,7 @@ function InstallKernel() {
   
   # 安装内核
   yum -y remove kernel-headers
-  yum -y --enablerepo=elrepo-kernel install kernel-ml kernel-ml-headers kernel-ml-devel
+  yum -y --enablerepo=elrepo-kernel install kernel-ml
   
   sed -i 's%DEFAULTKERNEL=kernel%DEFAULTKERNEL=kernel-ml%' /etc/sysconfig/kernel
   
