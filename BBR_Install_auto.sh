@@ -122,13 +122,11 @@ function Installbasesoftware() {
   rm -rf /etc/yum.repos.d/CentOS-Epel.repo
   Logprefix;echo ${CMSG}'[Info]安装wget'${CEND}
   yum -y install wget
-  Logprefix;echo ${CMSG}'[Info]安装lrzsz'${CEND}
-  yum -y install lrzsz
   Logprefix;echo ${CMSG}'[Info]安装zip unzip'${CEND}
   yum -y install unzip zip
-  Logprefix;echo ${CMSG}'[Info]安装Development Tools'${CEND}
-  yum -y groupinstall "Development Tools"
-  yum -y install yum-utils
+  # Logprefix;echo ${CMSG}'[Info]安装Development Tools'${CEND}
+  # yum -y groupinstall "Development Tools"
+  yum -y install yum-utils sed
 }
 
 function Askuser() {
@@ -138,7 +136,7 @@ function Askuser() {
   # add swapfile
   if [ "$Swap" == '0' ]; then
     if [ $Mem -le 1024 ]; then
-      COUNT=1024
+      COUNT=512
       Make-swapfile
     elif [ $Mem -gt 1024 ]; then
       COUNT=2048
