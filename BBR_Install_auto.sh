@@ -209,6 +209,9 @@ function InstallKernel() {
   
   sed -i 's%DEFAULTKERNEL=kernel%DEFAULTKERNEL=kernel-ml%' /etc/sysconfig/kernel
   
+  # 安装完后再次更新
+  yum -y update
+  
   # 设置启动顺序
   grub2-set-default 0
 }
